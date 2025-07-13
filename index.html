@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Luxury Config</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: radial-gradient(circle at center, #0a0a0a 60%, #001e2b);
+      overflow-x: hidden;
+      color: white;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: #00f0ff;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-10vh) translateX(10vw); opacity: 0; }
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    .title {
+      text-align: center;
+      color: #c2f4ff;
+      font-size: 42px;
+      font-weight: bold;
+      margin-bottom: 37px;
+      text-shadow: 0 0 22px #00f0ff;
+    }
+
+    
+
+    .card {
+      background-color: #15151580;
+      border-radius: 12px;
+      padding:15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      box-shadow: 0 0 20px #40f2ff9f;
+      flex-wrap: wrap;
+    }
+
+    .card img {
+      width: 30px;
+      height: 30px;
+      margin-right: 9px;
+      filter: drop-shadow(0 0 4px #00eeff93);
+    }
+
+    .left {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 21px;
+    }
+
+    .text-bold {
+      font-weight: 500;
+      text-shadow: 0 0 5px #00f0ff;
+    }
+
+    .switch-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .switch {
+      position: relative;
+      width: 40px;
+      height: 20px;
+      background-color: #333;
+      border-radius: 20px;
+      transition: background-color 0.3s;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00f0ff;
+    }
+
+ .option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 12px 0;
+      font-size: 18px;
+    }
+
+    .option span {
+      display: flex;
+      align-items: center;
+    }
+
+    .option span::before {
+      content: '-';
+      color: #ff0000;
+      margin-right: 8px;
+      font-weight: bold;
+    }
+
+    .option i {
+      font-size: 20px;
+      margin-right: 10px;
+      color: #ff0033;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      display: inline-block;
+      width: 24px;
+      text-align: center;
+    }
+
+    .option:hover i {
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 6px #ff0033);
+    }
+
+    .switch::after {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background-color: #666;
+      border-radius: 50%;
+      top: 1px;
+      left: 1px;
+      transition: transform 0.3s;
+      box-shadow: 0 0 10px #00f0ff;
+    }
+
+    .switch.active {
+      background-color: #00caff;
+    }
+
+    .switch.active::after {
+      transform: translateX(20px);
+      background-color: white;
+    }
+
+    .note {
+      text-align: left;
+      margin: 10px 0;
+      color: #ffffff;
+      font-size: 13px;
+    }
+
+    .blue-button {
+      width: 100%;
+      padding: 15px;
+      background: #0e97db3f;
+      border: none;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 20px;
+      color: rgb(210, 252, 255);
+      margin-top: 1px;
+      cursor: pointer;
+      box-shadow: 0 0 20px #00f0ff;
+    }
+
+    .option-box {
+      width: 100%;
+      padding: 10px;
+      background: #222;
+      border-radius: 8px;
+      color: white;
+      font-size: 14px;
+      margin-top: 5px;
+      border: none;
+      box-shadow: 0 0 8px #00f0ff80;
+    }
+
+     .section-title {
+      font-size: 22px;
+      color: #ff0033;
+      margin: 20px 0 10px;
+      border-bottom: 1px solid #ff0033;
+      padding-bottom: 5px;
+      text-transform: uppercase;
+      text-shadow: 0 0 5px #ff0033;
+    } 
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) scale(0.9);
+      background: #00caff;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 20px #00f0ff;
+      font-weight: bold;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9998;
+      display: none;
+    }
+
+    .loader.show {
+      display: flex;
+    }
+
+    .loader div {
+      border: 6px solid #00caff;
+      border-top: 6px solid transparent;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      box-shadow: 0 0 20px #00f0ff;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .info-box {
+      background: rgba(0, 32, 50, 0.6);
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 40px;
+      box-shadow: 0 0 15px #00f0ff90;
+    }
+
+    .info-box h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      color: #00caff;
+      text-shadow: 0 0 6px #00f0ff;
+    }
+
+    .info-box p {
+      font-size: 14px;
+      margin: 5px 0;
+    }
+
+    .info-box img {
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    for (let i = 0; i < 60; i++) {
+      let p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDuration = (Math.random() * 10 + 5) + 's';
+      document.body.appendChild(p);
+    }
+  </script>
+
+  <audio id="toggle-sound" src="https://cdn.pixabay.com/download/audio/2023/03/16/audio_641fad1644.mp3?filename=button-124476.mp3"></audio>
+
+  <div class="loader" id="loader"><div></div></div>
+
+  <div class="container">
+    <div class="title">⏏  --| NLAN |-- ⏏   </div>
+
+   
+
+   <div class="card">
+  <div class="left">
+    <img src="https://i.imgur.com/Ui4PVur.png" alt="skull">
+    <div class="text-bold"> : AIM SETTINGS :</div>
+  </div>
+<select class="option-box" onchange="showToast('Đã Chọn: ' + this.value)">
+        <option>...</option>
+        <option>AIM DRAG</option>
+        <option>AIM NECK</option>
+        <option>AIM HEAD</option>
+        <option>AIMLOCK</option>
+        <option>AIMBOT</option>
+    </select>
+</div>
+
+<div class="card">
+  <div class="left">
+    <img src="https://cdn-icons-png.flaticon.com/512/1043/1043470.png" alt="scope"> <!-- Ống nhắm -->
+    <div class="text-bold">Enhanced Functionality : </div>
+  </div>
+   <select class="option-box" onchange="showToast('⬆ ' + this.value)">
+        <option>...</option>
+        <option>Enhanced " AIM DRAG "</option>
+        <option>Enhanced " AIM NECK "</option>
+        <option>Enhanced " AIM HEAD "</option>
+        <option>Enhanced " AIMLOCK "</option>
+        <option>Enhanced " AIMBOT "</option>
+      </select>
+</div>
+
+    <div class="note"></div>
+
+    <div class="card">
+      <div class="left">
+        <img src="https://i.imgur.com/cyE7V9P.png" alt="mode">
+        <div class="text-bold">Visual Settings :</div>
+      </div>
+      <select class="option-box" onchange="showToast('Đã Bật: ' + this.value)">
+        <option>...</option>
+        <option>No Recoil</option>
+        <option>No Reload</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <div class="left">
+        <img src="https://i.imgur.com/anjwWYV.png" alt="dpi">
+        <div class="text-bold">Tỷ Lệ Bám Đầu :</div>
+      </div>
+      <input type="number" class="option-box" value="1.0%" step="0.1%" min="0.1%" max="100%" onchange="showToast('Headshot: ' + this.value + '%')">
+    </div>
+
+ <div class="card">
+      <div class="left">
+        <img src="https://i.imgur.com/C5IzBcD.png" alt="gamepad">
+        <div class="text-bold"> - DEVELOPMENT DAY :  <span id="device-name"> 13/7/2025</span></div>
+    
+    </div>
+
+    <button class="blue-button" onclick="activateSensi()">⏏  Enable Function ⏏ </button>
+
+    <div class="info-box">
+      <h3>📬 CONTACT INFO :</h3>
+      <p><img src="https://img.icons8.com/color/25/zalo.png"/> Zalo: <strong>0971553617</strong></p>
+      <p><img src="https://img.icons8.com/color/25/facebook-new.png"/> Facebook: <strong>Ng Lann</strong></p>
+      <p><img src="https://img.icons8.com/color/25/tiktok.png"/> TikTok: <strong>@nlan.trumfile</strong></p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+
+  
+  <script>
+    function toggleSwitch(el, name) {
+      el.classList.toggle('active');
+      document.getElementById('toggle-sound').play();
+      const state = el.classList.contains('active') ? ' Bật' : 'Tắt';
+      showToast(`${name}: ${state}`);
+    }
+
+    function showToast(text) {
+      const toast = document.getElementById('toast');
+      toast.textContent = text;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    function activateSensi() {
+      const loader = document.getElementById('loader');
+      loader.classList.add('show');
+      setTimeout(() => {
+        loader.classList.remove('show');
+        showToast('✅ ĐÃ KÍCH HOẠT NHỮNG CHỨC NĂNG ĐƯỢC CHỌN ');
+      }, 2000);
+    }
+
+    
+  </script>
+</body>
+</html>
